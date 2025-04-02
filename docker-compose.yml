@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   # PostgreSQL Database
   postgres:
@@ -70,6 +69,5 @@ services:
 networks:
   reddit_network:
     driver: bridge
-
 volumes:
   postgres_data:

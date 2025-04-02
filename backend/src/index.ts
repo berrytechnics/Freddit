@@ -1,42 +1,40 @@
-import cors from "cors";
-import express, { Application, Request, Response } from "express";
-import morgan from "morgan";
-import { setupDbConnection } from "./db/connection";
+import cors from 'cors';
+import express from 'express';
+import morgan from 'morgan';
+import { runMigrations } from './db/connection';
+import authRoutes from './routes/auth.routes';
+// Import other routes as needed
 
-// Import routes (we'll create these TypeScript files later)
-import authRoutes from "./routes/auth.routes";
-// import commentRoutes from "./routes/comment.routes";
-// import postRoutes from "./routes/post.routes";
-// import subredditRoutes from "./routes/subreddit.routes";
-// import userRoutes from "./routes/user.routes";
-
-// Initialize express app
-const app: Application = express();
-const PORT: number = parseInt(process.env.PORT || "3001", 10);
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
-// API routes
-app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
-// app.use("/api/subreddits", subredditRoutes);
-// app.use("/api/posts", postRoutes);
-// app.use("/api/comments", commentRoutes);
+// Routes
+app.use('/auth', authRoutes);
 
 // Health check endpoint
-app.get("/health", (_req: Request, res: Response) => {
-  res.status(200).json({ status: "ok", message: "Server is running" });
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
-
-// Setup database connection
-setupDbConnection();
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    // Run database migrations
+    await runMigrations();
 
-export default app;
+    // Start the server
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();

@@ -1,5 +1,4 @@
-import Head from "next/head";
-import Signup from "./signup";
+import Head from 'next/head';
 
 export default function Home() {
   return (
@@ -13,7 +12,9 @@ export default function Home() {
       </Head>
 
       <main>
-        <Signup />
+        <h1>Welcome</h1>
+        <hr />
+        <a href="/login">Login</a>
       </main>
     </div>
   );

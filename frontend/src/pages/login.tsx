@@ -1,31 +1,30 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash, FaReddit } from "react-icons/fa";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { clearError, loginUser } from "../store/slices/authSlice";
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FaEye, FaEyeSlash, FaReddit } from 'react-icons/fa';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { clearError, loginUser } from '../store/slices/authSlice';
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isAuthenticated, loading, error } = useAppSelector(
-    (state) => state.auth
+    state => state.auth
   );
 
   // Form state
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("Already authenticated, redirecting...");
-      // const redirectTo = (router.query.redirect as string) || "/";
-      // router.push(redirectTo);
+      const redirectTo = (router.query.redirect as string) || '/feed';
+      router.push(redirectTo);
     }
 
     // Clear any previous auth errors when component mounts
@@ -104,7 +103,7 @@ const Login = () => {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
                   value={formData.password}
@@ -131,14 +130,14 @@ const Login = () => {
                 disabled={loading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-reddit-orange hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-reddit-orange disabled:opacity-50"
               >
-                {loading ? "Logging in..." : "Log In"}
+                {loading ? 'Logging in...' : 'Log In'}
               </button>
             </div>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              New to Reddit Clone?{" "}
+              New to Reddit Clone?{' '}
               <Link
                 href="/signup"
                 className="font-medium text-reddit-blue hover:text-blue-500"
