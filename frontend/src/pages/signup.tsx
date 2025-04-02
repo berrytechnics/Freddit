@@ -1,8 +1,9 @@
+// frontend/src/pages/signup.tsx
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash, FaReddit } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { clearError, registerUser } from "../store/slices/authSlice";
 
@@ -31,6 +32,8 @@ const Signup = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("Already authenticated, redirecting...");
+      return;
       const redirectTo = (router.query.redirect as string) || "/";
       router.push(redirectTo);
     }
@@ -113,37 +116,36 @@ const Signup = () => {
     );
   };
 
+  // Safely handle the error message display
+  const errorMessage = error
+    ? typeof error === "string"
+      ? error
+      : (error as any)?.message || "An unknown error occurred"
+    : null;
+
   return (
     <>
       <Head>
-        <title>Sign Up - Reddit Clone</title>
-        <meta
-          name="description"
-          content="Create a new account on Reddit Clone"
-        />
+        <title>Sign Up - Freddit</title>
+        <meta name="description" content="Create a new account on Freddit" />
       </Head>
 
       <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center">
-              <FaReddit className="text-reddit-orange text-4xl" />
-            </div>
             <h2 className="mt-4 text-3xl font-extrabold text-gray-900">
               Create your account
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              By continuing, you agree to our User Agreement and Privacy Policy.
-            </p>
           </div>
 
-          {error && (
+          {errorMessage && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
-              {error}
+              {errorMessage}
             </div>
           )}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Form fields remain the same */}
             <div>
               <label
                 htmlFor="username"
@@ -162,7 +164,7 @@ const Signup = () => {
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-2 border ${
                     formErrors.username ? "border-red-300" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500`}
                 />
                 {formErrors.username && (
                   <p className="mt-1 text-sm text-red-600">
@@ -190,7 +192,7 @@ const Signup = () => {
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-2 border ${
                     formErrors.email ? "border-red-300" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500`}
                 />
                 {formErrors.email && (
                   <p className="mt-1 text-sm text-red-600">
@@ -218,7 +220,7 @@ const Signup = () => {
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-2 border ${
                     formErrors.password ? "border-red-300" : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500`}
                 />
                 <button
                   type="button"
@@ -259,7 +261,7 @@ const Signup = () => {
                     formErrors.confirmPassword
                       ? "border-red-300"
                       : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange`}
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500`}
                 />
                 {formErrors.confirmPassword && (
                   <p className="mt-1 text-sm text-red-600">
@@ -273,7 +275,7 @@ const Signup = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-reddit-orange hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-reddit-orange disabled:opacity-50"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
               >
                 {loading ? "Creating account..." : "Sign Up"}
               </button>
@@ -285,20 +287,11 @@ const Signup = () => {
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-reddit-blue hover:text-blue-500"
+                className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Log in
               </Link>
             </p>
-          </div>
-
-          <div className="mt-6 text-center">
-            <Link
-              href="/"
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              Return to home
-            </Link>
           </div>
         </div>
       </div>

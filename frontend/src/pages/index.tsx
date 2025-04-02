@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Signup from "./signup";
 
 export default function Home() {
   return (
@@ -12,12 +13,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold mb-6">Reddit Clone Homepage</h1>
-        <p className="mb-4">Welcome to our Reddit clone project!</p>
-        <p>
-          This is a simple starter page to verify that the Next.js routing is
-          working properly.
-        </p>
+        <Signup />
       </main>
     </div>
   );

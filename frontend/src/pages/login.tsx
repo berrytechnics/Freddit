@@ -23,8 +23,9 @@ const Login = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const redirectTo = (router.query.redirect as string) || "/";
-      router.push(redirectTo);
+      console.log("Already authenticated, redirecting...");
+      // const redirectTo = (router.query.redirect as string) || "/";
+      // router.push(redirectTo);
     }
 
     // Clear any previous auth errors when component mounts

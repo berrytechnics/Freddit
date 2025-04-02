@@ -5,10 +5,10 @@ import { setupDbConnection } from "./db/connection";
 
 // Import routes (we'll create these TypeScript files later)
 import authRoutes from "./routes/auth.routes";
-import commentRoutes from "./routes/comment.routes";
-import postRoutes from "./routes/post.routes";
-import subredditRoutes from "./routes/subreddit.routes";
-import userRoutes from "./routes/user.routes";
+// import commentRoutes from "./routes/comment.routes";
+// import postRoutes from "./routes/post.routes";
+// import subredditRoutes from "./routes/subreddit.routes";
+// import userRoutes from "./routes/user.routes";
 
 // Initialize express app
 const app: Application = express();
@@ -21,10 +21,10 @@ app.use(morgan("dev"));
 
 // API routes
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/subreddits", subredditRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/comments", commentRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/subreddits", subredditRoutes);
+// app.use("/api/posts", postRoutes);
+// app.use("/api/comments", commentRoutes);
 
 // Health check endpoint
 app.get("/health", (_req: Request, res: Response) => {
