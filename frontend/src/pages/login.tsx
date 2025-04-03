@@ -2,7 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FaEye, FaEyeSlash, FaReddit } from 'react-icons/fa';
+import { FaReddit } from 'react-icons/fa';
+import Input from '../components/Input';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { clearError, loginUser } from '../store/slices/authSlice';
 
@@ -18,7 +19,6 @@ const Login = () => {
     username: '',
     password: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -79,7 +79,7 @@ const Login = () => {
                 Username
               </label>
               <div className="mt-1">
-                <input
+                <Input
                   id="username"
                   name="username"
                   type="text"
@@ -87,7 +87,6 @@ const Login = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange"
                 />
               </div>
             </div>
@@ -100,27 +99,15 @@ const Login = () => {
                 Password
               </label>
               <div className="mt-1 relative">
-                <input
+                <Input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={'password'}
                   autoComplete="current-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-reddit-orange focus:border-reddit-orange"
                 />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <FaEye className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
               </div>
             </div>
 
