@@ -1,21 +1,16 @@
-import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppSelector } from '../store/hooks';
 
 export default function Home() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <Head>
-        <title>Reddit Clone</title>
-        <meta
-          name="description"
-          content="A Reddit clone built with Next.js and Express"
-        />
-      </Head>
-
-      <main>
-        <h1>Welcome</h1>
-        <hr />
-        <a href="/login">Login</a>
-      </main>
-    </div>
-  );
+  const router = useRouter();
+  const { isAuthenticated } = useAppSelector(state => state.auth);
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/feed');
+    } else {
+      router.push('/login');
+    }
+  }, []);
+  return <></>;
 }

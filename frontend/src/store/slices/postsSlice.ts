@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import { Post, postsAPI } from "../../lib/api";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
+import { Post, postsAPI } from '../../lib/api';
 
 // Define a type for the slice state
 interface PostsState {
@@ -20,7 +20,7 @@ const initialState: PostsState = {
 
 // Async thunks
 export const fetchPosts = createAsyncThunk(
-  "posts/fetchPosts",
+  'posts/fetchPosts',
   async (
     params: { sort?: string; page?: number; limit?: number } = {},
     { rejectWithValue }
@@ -31,14 +31,14 @@ export const fetchPosts = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to fetch posts." }
+        error.response?.data || { message: 'Failed to fetch posts.' }
       );
     }
   }
 );
 
 export const fetchPostsBySubreddit = createAsyncThunk(
-  "posts/fetchPostsBySubreddit",
+  'posts/fetchPostsBySubreddit',
   async (
     {
       subredditName,
@@ -55,14 +55,14 @@ export const fetchPostsBySubreddit = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to fetch subreddit posts." }
+        error.response?.data || { message: 'Failed to fetch subreddit posts.' }
       );
     }
   }
 );
 
 export const fetchPostById = createAsyncThunk(
-  "posts/fetchPostById",
+  'posts/fetchPostById',
   async (postId: number, { rejectWithValue }) => {
     try {
       const response = await postsAPI.getById(postId);
@@ -70,14 +70,14 @@ export const fetchPostById = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to fetch post." }
+        error.response?.data || { message: 'Failed to fetch post.' }
       );
     }
   }
 );
 
 export const createPost = createAsyncThunk(
-  "posts/createPost",
+  'posts/createPost',
   async (
     postData: {
       title: string;
@@ -94,14 +94,14 @@ export const createPost = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to create post." }
+        error.response?.data || { message: 'Failed to create post.' }
       );
     }
   }
 );
 
 export const updatePost = createAsyncThunk(
-  "posts/updatePost",
+  'posts/updatePost',
   async (
     {
       id,
@@ -118,14 +118,14 @@ export const updatePost = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to update post." }
+        error.response?.data || { message: 'Failed to update post.' }
       );
     }
   }
 );
 
 export const deletePost = createAsyncThunk(
-  "posts/deletePost",
+  'posts/deletePost',
   async (postId: number, { rejectWithValue }) => {
     try {
       await postsAPI.delete(postId);
@@ -133,14 +133,14 @@ export const deletePost = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to delete post." }
+        error.response?.data || { message: 'Failed to delete post.' }
       );
     }
   }
 );
 
 export const votePost = createAsyncThunk(
-  "posts/votePost",
+  'posts/votePost',
   async (
     { id, vote }: { id: number; vote: 1 | 0 | -1 },
     { rejectWithValue }
@@ -151,7 +151,7 @@ export const votePost = createAsyncThunk(
     } catch (err) {
       const error = err as AxiosError;
       return rejectWithValue(
-        error.response?.data || { message: "Failed to vote on post." }
+        error.response?.data || { message: 'Failed to vote on post.' }
       );
     }
   }
@@ -159,23 +159,23 @@ export const votePost = createAsyncThunk(
 
 // Create the slice
 const postsSlice = createSlice({
-  name: "posts",
+  name: 'posts',
   initialState,
   reducers: {
-    clearPosts: (state) => {
+    clearPosts: state => {
       state.items = [];
     },
-    clearCurrentPost: (state) => {
+    clearCurrentPost: state => {
       state.currentPost = null;
     },
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       // Fetch all posts
-      .addCase(fetchPosts.pending, (state) => {
+      .addCase(fetchPosts.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -189,7 +189,7 @@ const postsSlice = createSlice({
       })
 
       // Fetch posts by subreddit
-      .addCase(fetchPostsBySubreddit.pending, (state) => {
+      .addCase(fetchPostsBySubreddit.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -206,7 +206,7 @@ const postsSlice = createSlice({
       })
 
       // Fetch post by ID
-      .addCase(fetchPostById.pending, (state) => {
+      .addCase(fetchPostById.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -223,7 +223,7 @@ const postsSlice = createSlice({
       })
 
       // Create post
-      .addCase(createPost.pending, (state) => {
+      .addCase(createPost.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -237,13 +237,13 @@ const postsSlice = createSlice({
       })
 
       // Update post
-      .addCase(updatePost.pending, (state) => {
+      .addCase(updatePost.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(updatePost.fulfilled, (state, action: PayloadAction<Post>) => {
         state.loading = false;
-        state.items = state.items.map((post) =>
+        state.items = state.items.map(post =>
           post.id === action.payload.id ? action.payload : post
         );
         if (state.currentPost?.id === action.payload.id) {
@@ -256,13 +256,13 @@ const postsSlice = createSlice({
       })
 
       // Delete post
-      .addCase(deletePost.pending, (state) => {
+      .addCase(deletePost.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
         state.loading = false;
-        state.items = state.items.filter((post) => post.id !== action.payload);
+        state.items = state.items.filter(post => post.id !== action.payload);
         if (state.currentPost?.id === action.payload) {
           state.currentPost = null;
         }
@@ -276,7 +276,7 @@ const postsSlice = createSlice({
       .addCase(
         votePost.fulfilled,
         (state, action: PayloadAction<{ id: number; vote_count: number }>) => {
-          state.items = state.items.map((post) =>
+          state.items = state.items.map(post =>
             post.id === action.payload.id
               ? { ...post, vote_count: action.payload.vote_count }
               : post

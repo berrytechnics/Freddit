@@ -57,7 +57,7 @@ export interface Post {
   title: string;
   body?: string;
   url?: string;
-  post_type: "text" | "link" | "image" | "video";
+  post_type: 'text' | 'link' | 'image' | 'video';
   vote_count: number;
   comment_count: number;
   user_id: number;
@@ -66,6 +66,7 @@ export interface Post {
   is_removed: boolean;
   created_at: Date;
   updated_at: Date;
+  user_vote?: number;
 }
 
 // Post creation request
@@ -73,7 +74,7 @@ export interface PostCreationRequest {
   title: string;
   body?: string;
   url?: string;
-  post_type: "text" | "link" | "image" | "video";
+  post_type: 'text' | 'link' | 'image' | 'video';
   subreddit_id: number;
 }
 
@@ -122,8 +123,9 @@ export interface VoteRequest {
 }
 
 // Auth token response
+// Update the AuthTokenResponse interface to allow null token
 export interface AuthTokenResponse {
-  token: string;
+  token: string | null;
   user: {
     id: number;
     username: string;
